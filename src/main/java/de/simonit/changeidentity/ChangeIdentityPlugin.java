@@ -50,7 +50,6 @@ public class ChangeIdentityPlugin extends JavaPlugin {
 			log.info("Vault not found - continue with initialisation");
 		}
 		nameTagChanger = NameTagChanger.INSTANCE;
-		nameTagChanger.setPlugin(this);
 
 		new ChangeIdentityCommand(this);
 		new ResetIdentityCommand(this);
