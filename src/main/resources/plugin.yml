@@ -1,0 +1,17 @@
+name: ChangeIdentity
+main: de.simonit.changeidentity.ChangeIdentityPlugin
+version: "1.0"
+author: SimonIT
+softdepend:
+  - Vault
+  - ProtocolLib
+commands:
+  changeidentity:
+    aliases:
+      - speakas
+      - cid
+    description: Changes the identity
+  resetidentitiy:
+    aliases:
+      - cidexit
+    description: Resets the idenity

@@ -1,0 +1,39 @@
+plugins {
+    id 'io.freefair.lombok' version '4.1.6'
+}
+
+apply plugin: 'java'
+
+group = pluginGroup
+version = pluginVersion
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'spigotmc-repo'
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://repo.bringholm.com' }
+}
+
+dependencies {
+    compileOnly 'org.jetbrains:annotations:18.0.0'
+    compileOnly 'org.bukkit:bukkit:1.15.1-R0.1-SNAPSHOT'
+    compileOnly 'com.github.MilkBowl:VaultAPI:master-SNAPSHOT'
+    compile('com.bringholm.nametagchanger:NameTagChanger:1.1-SNAPSHOT') {
+        exclude group: 'org.bukkit', module: 'craftbukkit'
+        exclude group: 'com.comphenix.protocol', module: 'ProtocolLib-API'
+    }
+}
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        filter ReplaceTokens, tokens: [version: version]
+    }
+}
