@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ChangedIdentityListener implements Listener {
 
-	ChangeIdentityPlugin plugin;
+	private ChangeIdentityPlugin plugin;
 
 	public ChangedIdentityListener(ChangeIdentityPlugin plugin) {
 		this.plugin = plugin;
@@ -20,9 +20,13 @@ public class ChangedIdentityListener implements Listener {
 		for (Player recipient : event.getRecipients()) {
 			if (plugin.getChangedIdentities().containsKey(recipient)) {
 				for (Player newIdentity : plugin.getChangedIdentities().get(recipient)) {
-					newIdentity.sendMessage(event.getMessage());
+					if (!newIdentity.equals(event.getPlayer()) && !event.getRecipients().contains(newIdentity)) {
+						newIdentity.sendMessage(String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage()));
+					}
 				}
 			}
 		}
+		if (plugin.getOldPlayerInfosMap().containsKey(event.getPlayer()))
+			ChangeIdentityPlugin.getLog().info("Message by " + event.getPlayer().getName() + ":");
 	}
 }

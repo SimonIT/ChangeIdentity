@@ -5,6 +5,7 @@ import de.simonit.changeidentity.commands.ChangeIdentityCommand;
 import de.simonit.changeidentity.commands.ResetIdentityCommand;
 import de.simonit.changeidentity.data.OldPlayerInfos;
 import de.simonit.changeidentity.listeners.ChangedIdentityListener;
+import jdk.internal.jline.internal.Nullable;
 import lombok.Getter;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
@@ -22,13 +23,13 @@ public class ChangeIdentityPlugin extends JavaPlugin {
 
 	@Getter
 	private static final Logger log = Logger.getLogger("Minecraft");
-	@Getter
+	@Getter @Nullable
 	private static Economy econ = null;
-	@Getter
+	@Getter @Nullable
 	private static Permission perms = null;
-	@Getter
+	@Getter @Nullable
 	private static Chat chat = null;
-	@Getter
+	@Getter @Nullable
 	private static NameTagChanger nameTagChanger;
 
 	@Getter
@@ -49,7 +50,11 @@ public class ChangeIdentityPlugin extends JavaPlugin {
 		} else {
 			log.info("Vault not found - continue with initialisation");
 		}
-		nameTagChanger = NameTagChanger.INSTANCE;
+		try {
+			nameTagChanger = NameTagChanger.INSTANCE;
+		} catch (ExceptionInInitializerError e)  {
+			log.warning("NameTagChanger is incompatible to this bukkit version. Resuming without it. " + e.toString());
+		}
 
 		new ChangeIdentityCommand(this);
 		new ResetIdentityCommand(this);

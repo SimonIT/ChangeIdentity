@@ -25,17 +25,28 @@ public class ResetIdentityCommand extends AutoCommand<ChangeIdentityPlugin> {
 				if (oldPlayerInfos != null) {
 					((Player) cs).setDisplayName(oldPlayerInfos.getDisplayName());
 					((Player) cs).setPlayerListName(oldPlayerInfos.getListName());
+					((Player) cs).setCustomName(oldPlayerInfos.getCustomName());
 					Chat c = ChangeIdentityPlugin.getChat();
 					if (c != null) {
 						c.setPlayerPrefix((Player) cs, oldPlayerInfos.getPrefix());
 						c.setPlayerSuffix((Player) cs, oldPlayerInfos.getSuffix());
 					}
 					NameTagChanger changer = ChangeIdentityPlugin.getNameTagChanger();
-					changer.resetPlayerName((Player) cs);
-					changer.resetPlayerSkin((Player) cs);
-					changer.updatePlayer((Player) cs);
+					if (changer != null) {
+						try {
+							changer.resetPlayerName((Player) cs);
+						} catch (RuntimeException e) {
+							ChangeIdentityPlugin.getLog().warning("This error occurred\n" + e.toString() + "\nhttps://github.com/Alvin-LB/NameTagChanger/issues/13");
+						}
+						changer.resetPlayerSkin((Player) cs);
+						try {
+							changer.updatePlayer((Player) cs);
+						} catch (RuntimeException e) {
+							ChangeIdentityPlugin.getLog().warning("This error occurred\n" + e.toString() + "\nhttps://github.com/Alvin-LB/NameTagChanger/issues/13");
+						}
+					}
 					Map<Player, List<Player>> identi = getPlugin().getChangedIdentities();
-					for (Map.Entry<Player, List<Player>> identities :  identi.entrySet()) {
+					for (Map.Entry<Player, List<Player>> identities : identi.entrySet()) {
 						if (identities.getValue().contains(cs)) {
 							identi.get(identities.getKey()).remove(cs);
 							break;

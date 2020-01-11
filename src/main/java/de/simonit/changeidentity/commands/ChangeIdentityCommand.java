@@ -32,6 +32,9 @@ public class ChangeIdentityCommand extends AutoCommand<ChangeIdentityPlugin> {
 						((Player) cs).setDisplayName(playerToCopy.getDisplayName());
 						oldPlayerInfos.setListName(((Player) cs).getPlayerListName());
 						((Player) cs).setPlayerListName(playerToCopy.getPlayerListName());
+						oldPlayerInfos.setCustomName(((Player) cs).getCustomName());
+						((Player) cs).setCustomName(playerToCopy.getCustomName());
+						((Player) cs).setCustomNameVisible(playerToCopy.isCustomNameVisible());
 						Chat c = ChangeIdentityPlugin.getChat();
 						if (c != null) {
 							oldPlayerInfos.setPrefix(c.getPlayerPrefix((Player) cs));
@@ -41,13 +44,23 @@ public class ChangeIdentityCommand extends AutoCommand<ChangeIdentityPlugin> {
 						}
 						getPlugin().getOldPlayerInfosMap().put((Player) cs, oldPlayerInfos);
 						NameTagChanger changer = ChangeIdentityPlugin.getNameTagChanger();
-						String newName = changer.getChangedName(playerToCopy);
-						if (newName == null) newName = playerToCopy.getName();
-						changer.changePlayerName((Player) cs, newName);
-						Skin newSkin = changer.getChangedSkin(playerToCopy);
-						if (newSkin == null) newSkin = changer.getDefaultSkinFromPlayer(playerToCopy);
-						changer.setPlayerSkin((Player) cs, newSkin);
-						changer.updatePlayer((Player) cs);
+						if (changer != null) {
+							String newName = changer.getChangedName(playerToCopy);
+							if (newName == null) newName = playerToCopy.getName();
+							try {
+								changer.changePlayerName((Player) cs, newName);
+							} catch (RuntimeException e) {
+								ChangeIdentityPlugin.getLog().warning("This error occurred\n" + e.toString() + "\nhttps://github.com/Alvin-LB/NameTagChanger/issues/13");
+							}
+							Skin newSkin = changer.getChangedSkin(playerToCopy);
+							if (newSkin == null) newSkin = changer.getDefaultSkinFromPlayer(playerToCopy);
+							changer.setPlayerSkin((Player) cs, newSkin);
+							try {
+								changer.updatePlayer((Player) cs);
+							} catch (RuntimeException e) {
+								ChangeIdentityPlugin.getLog().warning("This error occurred\n" + e.toString() + "\nhttps://github.com/Alvin-LB/NameTagChanger/issues/13");
+							}
+						}
 						Map<Player, List<Player>> identityMap = getPlugin().getChangedIdentities();
 						if (identityMap.containsKey(playerToCopy)) {
 							identityMap.get(playerToCopy).add((Player) cs);
