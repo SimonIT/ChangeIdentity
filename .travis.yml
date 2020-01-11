@@ -7,3 +7,19 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+
+before_deploy:
+  - ./gradlew shadowJar
+
+deploy:
+  provider: releases
+  pre-release: true
+  skip_cleanup: true
+  api_key: ${GH_TOKEN}
+  file_glob: true
+  file:
+    - "build/libs/ChangeIdentity.jar"
+  on:
+    tags: true
+    repo: SimonIT/ChangeIdentity
+    all_branches: true

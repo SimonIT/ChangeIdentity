@@ -1,8 +1,8 @@
 plugins {
+	id 'java'
     id 'io.freefair.lombok' version '4.1.6'
+	id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
-
-apply plugin: 'java'
 
 group = pluginGroup
 version = pluginVersion
@@ -36,4 +36,11 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         filter ReplaceTokens, tokens: [version: version]
     }
+}
+
+shadowJar {
+	minimize()
+	archiveBaseName = 'ChangeIdentitiy'
+	archiveClassifier = ''
+	archiveVersion = ''
 }
