@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.jetbrains:annotations:18.0.0'
+    compileOnly 'org.jetbrains:annotations:19.0.0'
     compileOnly 'org.bukkit:bukkit:1.15.1-R0.1-SNAPSHOT'
     compileOnly 'com.github.MilkBowl:VaultAPI:master-SNAPSHOT'
     compile('com.bringholm.nametagchanger:NameTagChanger:1.1-SNAPSHOT') {
