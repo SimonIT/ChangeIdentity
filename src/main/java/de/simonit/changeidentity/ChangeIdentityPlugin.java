@@ -33,9 +33,9 @@ public class ChangeIdentityPlugin extends JavaPlugin {
 	private static NameTagChanger nameTagChanger;
 
 	@Getter
-	private Map<Player, OldPlayerInfos> oldPlayerInfosMap = new HashMap<>();
+	private final Map<Player, OldPlayerInfos> oldPlayerInfosMap = new HashMap<>();
 	@Getter
-	private Map<Player, List<Player>> changedIdentities = new HashMap<>();
+	private final Map<Player, List<Player>> changedIdentities = new HashMap<>();
 
 	@Override
 	public void onDisable() {

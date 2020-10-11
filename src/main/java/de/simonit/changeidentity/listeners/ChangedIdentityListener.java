@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ChangedIdentityListener implements Listener {
 
-	private ChangeIdentityPlugin plugin;
+	private final ChangeIdentityPlugin plugin;
 
 	public ChangedIdentityListener(ChangeIdentityPlugin plugin) {
 		this.plugin = plugin;
